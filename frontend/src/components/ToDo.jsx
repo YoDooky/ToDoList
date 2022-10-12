@@ -1,15 +1,13 @@
 import { Paper, FormControlLabel, Button, Checkbox, Grid } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 
-import { useState } from "react";
-
 function ToDo({ task, removeTask, completeTask }) {
   const deleteItem = () => {
-    removeTask(task.id);
+    removeTask(task._id);
   };
 
   const completeItem = () => {
-    completeTask(task.id);
+    completeTask(task._id);
   };
 
   return (
@@ -24,14 +22,14 @@ function ToDo({ task, removeTask, completeTask }) {
           <FormControlLabel
             control={
               <Checkbox
-                checked={task.comleted ? true : false}
+                checked={task.completed ? true : false}
                 onClick={completeItem}
               />
             }
             label={task.text}
             style={{
               display: "flex",
-              textDecoration: task.comleted ? "line-through" : "",
+              textDecoration: task.completed ? "line-through" : "",
             }}
           />
         </Grid>

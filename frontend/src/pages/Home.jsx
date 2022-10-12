@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { Container, Button } from "@mui/material";
+import { Container } from "@mui/material";
 import { AuthContext } from "../context";
 import ToDo from "../components/ToDo";
 import ToDoForm from "../components/ToDoForm";
@@ -11,39 +11,24 @@ const Home = () => {
   const { token } = useContext(AuthContext);
   const { userId } = useContext(AuthContext);
   const [tasks, setTask] = useState([]);
-  const [isCompleted, setIsCompleted] = useState();
-
-  // const getTask = async (taskId) => {
-  //   if (taskId) {
-  //     try {
-  //       const res = await axios
-  //         .get(`http://localhost:4444/tasks/${taskId}`)
-  //         .then((res) => {
-  //           setTask((tasks)=>[...tasks, tasks.filter(task=>task.id==taskId)[0]]);
-  //         });
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  // };
 
   const getUserTasks = async () => {
     try {
-      const res = await axios
+      await axios
         .get(`http://localhost:4444/tasks/user/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
-        .then((res) => {
-          res.data.map((element) => {
-            const lastItem = {
-              id: element._id,
-              text: element.text,
-              completed: element.completed,
-            };
-            setTask((tasks) => [...tasks, lastItem]);
-            console.log("added to SetTask");
-          });
-        });
+        .then((res) => setTask(res.data));
+      // .then((res) => {
+      //   res.data.forEach((element) => {
+      //     const lastItem = {
+      //       id: element._id,
+      //       text: element.text,
+      //       completed: element.completed,
+      //     };
+      //     setTask((tasks) => [...tasks, lastItem]);
+      //   });
+      // });
     } catch (err) {
       console.log(err);
     }
@@ -55,12 +40,12 @@ const Home = () => {
         text: userInput,
       };
       try {
-        const res = await axios
+        await axios
           .post("http://localhost:4444/tasks", newItem, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
-            setTask((tasks) => [...tasks, newItem]);
+            getUserTasks();
           });
       } catch (err) {
         console.log(err);
@@ -71,12 +56,12 @@ const Home = () => {
   const removeTask = async (taskId) => {
     if (taskId) {
       try {
-        const res = await axios
+        await axios
           .delete(`http://localhost:4444/tasks/${taskId}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
-            setTask(tasks.filter((task) => task.id !== taskId));
+            setTask(tasks.filter((task) => task._id !== taskId));
           });
       } catch (err) {
         console.log(err);
@@ -85,24 +70,19 @@ const Home = () => {
   };
 
   const completeTask = async (taskId) => {
-    const complete = tasks.filter((task) => task.id == taskId)[0].completed;
-    const newData = {
+    const complete = tasks.filter((task) => task._id === taskId)[0].completed;
+    const newItem = {
       completed: !complete,
     };
     if (taskId) {
       try {
-        const res = await axios.patch(
-          `http://localhost:4444/tasks/${taskId}`,
-          newData,
-          {
+        await axios
+          .patch(`http://localhost:4444/tasks/${taskId}`, newItem, {
             headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        // .then(
-        //   setTask((tasks) => {
-        //     tasks.filter((task) => task.id !== taskId);
-        //   })
-        // );
+          })
+          .then(() => {
+            getUserTasks();
+          });
       } catch (err) {
         console.log(err);
       }
@@ -122,7 +102,7 @@ const Home = () => {
           <ToDoForm tasks={tasks} addTask={addTask} />
           {tasks.map((task) => (
             <ToDo
-              key={task.id}
+              key={task._id}
               task={task}
               removeTask={removeTask}
               completeTask={completeTask}

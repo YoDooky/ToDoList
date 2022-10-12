@@ -16,25 +16,23 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 const Login = () => {
-  const { isAuth, setIsAuth } = useContext(AuthContext);
-  const { token, setToken } = useContext(AuthContext);
-  const { userId, setUserId } = useContext(AuthContext);
-
+  const { setIsAuth } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
+  const { setUserId } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios
+      await axios
         .post("http://localhost:4444/auth/login", {
           fullName: username,
           password: password,
         })
         .then(function (res) {
-          if (res.status == 200) {
+          if (res.status === 200) {
             setIsAuth(true);
             localStorage.setItem("auth", "true");
             setToken(res.data.token);
@@ -99,14 +97,9 @@ const Login = () => {
                   color: "black",
                 }}
               >
-                Sign in
+                Sign In
               </Typography>
-              <Box
-                component="form"
-                noValidate
-                onSubmit={handleSubmit}
-                sx={{ mt: 1 }}
-              >
+              <Box component="form" noValidate sx={{ mt: 1 }}>
                 <TextField
                   value={username}
                   onChange={(event) => setUsername(event.currentTarget.value)}
@@ -136,6 +129,7 @@ const Login = () => {
                 label="Remember me"
               /> */}
                 <Button
+                  onClick={handleLogin}
                   type="submit"
                   fullWidth
                   variant="contained"
@@ -143,7 +137,11 @@ const Login = () => {
                 >
                   Sign In
                 </Button>
-                <Button type="submit" fullWidth variant="outlined">
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="outlined"
+                >
                   Sign Up
                 </Button>
                 <Grid container>

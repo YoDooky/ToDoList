@@ -127,10 +127,25 @@ export const update = async (req, res) => {
         text: req.body.text,
         completed: req.body.completed,
         user: req.userId,
+      },
+      {
+        new: true,
       }
-    );
-
-    res.json({ success: true });
+    )
+      .then((doc) => {
+        if (!doc) {
+          return res.status(404).json({
+            message: "Task not found",
+          });
+        }
+        res.json(doc);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json({
+          message: "Can't return task",
+        });
+      });
   } catch (err) {
     console.log(err);
     res.status(500).json({
