@@ -9,9 +9,11 @@ export const login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({
-        message: "User not found", // bad practice, for test only
-      });
+      return res.status(404).json([
+        {
+          msg: "Invalid user or password", // bad practice, for test only
+        },
+      ]);
     }
 
     const isValidPass = await bcrypt.compare(
@@ -20,9 +22,11 @@ export const login = async (req, res) => {
     );
 
     if (!isValidPass) {
-      return res.status(404).json({
-        message: "Invalid user or password",
-      });
+      return res.status(404).json([
+        {
+          msg: "Invalid user or password",
+        },
+      ]);
     }
 
     const token = jwt.sign(
@@ -41,11 +45,13 @@ export const login = async (req, res) => {
       ...userData,
       token,
     });
-  } catch (error) {
+  } catch (err) {
     console.log(err);
-    res.status(400).json({
-      message: "Failed to login",
-    });
+    res.status(400).json([
+      {
+        msg: "Failed to login",
+      },
+    ]);
   }
 };
 
@@ -80,16 +86,10 @@ export const register = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).json({
-      message: "Failed to register",
-    });
+    res.status(500).json([
+      {
+        msg: "Failed to register",
+      },
+    ]);
   }
-};
-
-export const refresh = async (req, res) => {
-  const refreshToken = req.body.token;
-  if (!refreshToken) {
-    return res.status(401).json("You are not authenticated!");
-  }
-
 };

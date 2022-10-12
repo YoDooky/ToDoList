@@ -88,6 +88,8 @@ const Home = () => {
       }
     }
   };
+  
+  const editTask = async () => {};
 
   useEffect(() => {
     getUserTasks();

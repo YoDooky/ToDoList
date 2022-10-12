@@ -40,11 +40,21 @@ const Login = () => {
             setUserId(res.data._id);
             localStorage.setItem("userId", res.data._id);
             navigate("/");
+          } else {
+            res.data.forEach((resData) => alert(resData.msg));
           }
+        })
+        .catch((err) => {
+          err.response.data.forEach((err) => alert(err.msg));
         });
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleRegister = (event) => {
+    event.preventDefault();
+    navigate("/register");
   };
 
   return (
@@ -138,6 +148,7 @@ const Login = () => {
                   Sign In
                 </Button>
                 <Button
+                  onClick={handleRegister}
                   type="submit"
                   fullWidth
                   variant="outlined"

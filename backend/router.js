@@ -24,8 +24,6 @@ router.post(
   handleValidationErrors,
   UserController.register
 );
-//refresh token
-router.post("/auth/refresh", checkAuth, UserController.refresh);
 
 //CRUD
 //get all tasks

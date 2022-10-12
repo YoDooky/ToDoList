@@ -12,11 +12,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { AuthContext } from "../context";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const theme = createTheme();
-
-
 
 const Register = () => {
   const { setIsAuth } = useContext(AuthContext);
@@ -36,14 +33,13 @@ const Register = () => {
         })
         .then(function (res) {
           if (res.status === 200) {
-            setIsAuth(true);
-            localStorage.setItem("auth", "true");
-            setToken(res.data.token);
-            localStorage.setItem("token", res.data.token);
-            setUserId(res.data._id);
-            localStorage.setItem("userId", res.data._id);
             navigate("/login");
+          } else {
+            res.data.forEach((resData) => alert(resData.msg));
           }
+        })
+        .catch((err) => {
+          err.response.data.forEach((err) => alert(err.msg));
         });
     } catch (err) {
       console.log(err);

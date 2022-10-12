@@ -18,7 +18,7 @@ function ToDo({ task, removeTask, completeTask }) {
       }}
     >
       <Grid container>
-        <Grid item lg={6} md={6} sm={6} xs={6} pl={2}>
+        <Grid item lg={10} md={10} sm={10} xs={10} pl={2}>
           <FormControlLabel
             control={
               <Checkbox
@@ -33,10 +33,17 @@ function ToDo({ task, removeTask, completeTask }) {
             }}
           />
         </Grid>
-        {/* <Grid item lg={6} md={6} sm={6} xs={6} alignContent={"flex-end"}> */}
-        <Button onClick={deleteItem}>
-          <Delete />
-        </Button>
+        {/* <Grid
+          item
+          lg={2}
+          md={2}
+          sm={2}
+          xs={2}
+          alignSelf='center'
+        > */}
+          <Button onClick={deleteItem}>
+            <Delete display='flex'/>
+          </Button>
         {/* </Grid> */}
       </Grid>
     </Paper>
