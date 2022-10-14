@@ -1,0 +1,65 @@
+.FormAuth {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.FormInput {
+  flex: 1 1 0%;
+  background-color: var(--darker);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  color: var(--light);
+  font-size: 1.25rem;
+}
+
+.FormLabel {
+  position: relative;
+  top: 1rem;
+  left: 1.2rem;
+  padding: 0.2rem;
+  width: fit-content;
+  border-radius: 0.5rem;
+  color: var(--gray);
+  background-color: var(--darkest);
+}
+
+.FormButtonLogin {
+  appearance: auto;
+  flex: 1 1 0%;
+  background-color: var(--purple);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  color: var(--light);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.FormButtonLogin:hover {
+  margin: 0.75rem;
+  opacity: 0.8;
+}
+
+.FormButtonRegister {
+  appearance: auto;
+  flex: 1 1 0%;
+  padding: 0.5rem;
+  border-style: solid;
+  border-color: var(--purple);
+  margin-top: 0.5rem;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  color: var(--light);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.FormButtonRegister:hover {
+  margin: 0.75rem;
+  opacity: 0.8;
+}

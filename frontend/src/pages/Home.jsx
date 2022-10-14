@@ -1,16 +1,18 @@
 import { useContext, useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
-import { Container } from "@mui/material";
 import { AuthContext } from "../context";
 import ToDo from "../components/ToDo";
 import ToDoForm from "../components/ToDoForm";
 import axios from "axios";
+import MyModal from "../components/UI/MyModal/MyModal";
+import FormLogin from "../components/UI/MyForm/FormLogin";
+import FormRegister from "../components/UI/MyForm/FormRegister";
 
 const Home = () => {
   const { isAuth } = useContext(AuthContext);
   const { token } = useContext(AuthContext);
   const { userId } = useContext(AuthContext);
   const [tasks, setTask] = useState([]);
+  const [signUp, showSignUp] = useState(false);
 
   const getUserTasks = async () => {
     try {
@@ -19,16 +21,6 @@ const Home = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => setTask(res.data));
-      // .then((res) => {
-      //   res.data.forEach((element) => {
-      //     const lastItem = {
-      //       id: element._id,
-      //       text: element.text,
-      //       completed: element.completed,
-      //     };
-      //     setTask((tasks) => [...tasks, lastItem]);
-      //   });
-      // });
     } catch (err) {
       console.log(err);
     }
@@ -70,7 +62,7 @@ const Home = () => {
   };
 
   const completeTask = async (taskId) => {
-    const complete = tasks.filter((task) => task._id === taskId)[0].completed;
+    const complete = tasks.filter((task) => task._id === taskId)[0].completed; //read current task.completed state to inverse it
     const newItem = {
       completed: !complete,
     };
@@ -88,19 +80,41 @@ const Home = () => {
       }
     }
   };
-  
-  const editTask = async () => {};
+
+  const editTask = async (taskId, userInput) => {
+    const newItem = {
+      text: userInput,
+    };
+    if (taskId) {
+      try {
+        await axios
+          .patch(`http://localhost:4444/tasks/${taskId}`, newItem, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then(() => {
+            getUserTasks();
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   useEffect(() => {
     getUserTasks();
-  }, []);
+  }, [isAuth]);
 
   return (
     <div className="App">
-      {!isAuth ? (
-        <Navigate to="/login" />
-      ) : (
-        <Container maxWidth="sm">
+      <MyModal visible={!isAuth}>
+        {!signUp ? (
+          <FormLogin showSignUp={showSignUp} />
+        ) : (
+          <FormRegister showSignUp={showSignUp} />
+        )}
+      </MyModal>
+      {isAuth ? (
+        <div>
           <ToDoForm tasks={tasks} addTask={addTask} />
           {tasks.map((task) => (
             <ToDo
@@ -108,10 +122,11 @@ const Home = () => {
               task={task}
               removeTask={removeTask}
               completeTask={completeTask}
+              editTask={editTask}
             />
           ))}
-        </Container>
-      )}
+        </div>
+      ) : null}
     </div>
   );
 };

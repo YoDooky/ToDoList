@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Input, Button, FormControl } from "@mui/material";
 import { useContext } from "react";
 import { AuthContext } from "../context";
 
@@ -24,31 +23,26 @@ function ToDoForm({ tasks, addTask }) {
   };
 
   return (
-    <div>
-      <header>
-        <Button onClick={logout} variant="contained">
+    <header>
+      <div className="navigation">
+        <button  className="logout-button" onClick={logout} variant="contained">
           Logout
-        </Button>
-        <h1>Today tasks: {tasks.length}</h1>
-      </header>
-      <form onSubmit={handleSubmit}>
-        <FormControl fullWidth={true}>
-          <Input
-            style={{
-              margin: 8,
-              color: "rgb(199, 219, 219)",
-            }}
-            value={userInput}
-            type="text"
-            onChange={handleChange}
-            placeholder="new task..."
-          />
-          <Button color="primary" type="submit" variant="contained">
-            add
-          </Button>
-        </FormControl>
+        </button>
+      </div>
+      <h1>Today tasks: {tasks.length}</h1>
+      <form id="new-task-form" onSubmit={handleSubmit}>
+        <input
+          value={userInput}
+          onChange={handleChange}
+          type="text"
+          className="new-task-input"
+          placeholder="whats your plan"
+        />
+        <button type="submit" id="new-task-submit">
+          ADD
+        </button>
       </form>
-    </div>
+    </header>
   );
 }
 

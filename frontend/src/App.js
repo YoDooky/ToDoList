@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
-import Register from "./pages/Register.jsx";
 import { Routes, Route } from "react-router-dom";
 import { AuthContext } from "./context/index.js";
 
@@ -16,8 +14,6 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
       </Routes>
     </AuthContext.Provider>
   );
