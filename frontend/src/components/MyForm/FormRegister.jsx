@@ -1,31 +1,23 @@
 import axios from "axios";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../../context";
+import config from "../../config/default.json";
+import { useState } from "react";
 import cl from "./MyForm.module.css";
 
-const FormLogin = ({ showSignUp }) => {
-  const { setIsAuth } = useContext(AuthContext);
-  const { setToken } = useContext(AuthContext);
-  const { setUserId } = useContext(AuthContext);
+const FormRegister = ({ showSignUp }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     try {
       await axios
-        .post("http://localhost:4444/auth/login", {
+        .post(`${config.backendUrl}/auth/register`, {
           fullName: username,
           password: password,
         })
         .then(function (res) {
           if (res.status === 200) {
-            setIsAuth(true);
-            localStorage.setItem("auth", "true");
-            setToken(res.data.token);
-            localStorage.setItem("token", res.data.token);
-            setUserId(res.data._id);
-            localStorage.setItem("userId", res.data._id);
+            showSignUp(false);
           } else {
             res.data.forEach((resData) => alert(resData.msg));
           }
@@ -38,14 +30,14 @@ const FormLogin = ({ showSignUp }) => {
     }
   };
 
-  const handleRegister = (event) => {
+  const handleBack = (event) => {
     event.preventDefault();
-    showSignUp(true);
+    showSignUp(false);
   };
 
   return (
     <div>
-      <h1>Sign In</h1>
+      <h1>Sign Up</h1>
       <form className={cl.FormAuth}>
         <label className={cl.FormLabel}>username</label>
         <input
@@ -59,17 +51,17 @@ const FormLogin = ({ showSignUp }) => {
           className={cl.FormInput}
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
-          type="text"
+          type="password"
         />
-        <button className={cl.FormButtonLogin} onClick={handleLogin}>
-          LOGIN
-        </button>
         <button className={cl.FormButtonRegister} onClick={handleRegister}>
           REGISTER
+        </button>
+        <button className={cl.FormButtonLogin} onClick={handleBack}>
+          BACK
         </button>
       </form>
     </div>
   );
 };
 
-export default FormLogin;
+export default FormRegister;

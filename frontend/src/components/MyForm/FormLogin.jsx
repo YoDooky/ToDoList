@@ -1,23 +1,32 @@
 import axios from "axios";
+import config from "../../config/default.json";
 import { useState, useContext } from "react";
-import { AuthContext } from "../../../context";
+import { AuthContext } from "../../context";
 import cl from "./MyForm.module.css";
 
-const FormRegister = ({ showSignUp }) => {
+const FormLogin = ({ showSignUp }) => {
+  const { setIsAuth } = useContext(AuthContext);
+  const { setToken } = useContext(AuthContext);
+  const { setUserId } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = async (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
     try {
       await axios
-        .post("http://localhost:4444/auth/register", {
+        .post(`${config.backendUrl}/auth/login`, {
           fullName: username,
           password: password,
         })
         .then(function (res) {
           if (res.status === 200) {
-            showSignUp(false);
+            setIsAuth(true);
+            localStorage.setItem("auth", "true");
+            setToken(res.data.token);
+            localStorage.setItem("token", res.data.token);
+            setUserId(res.data._id);
+            localStorage.setItem("userId", res.data._id);
           } else {
             res.data.forEach((resData) => alert(resData.msg));
           }
@@ -30,9 +39,14 @@ const FormRegister = ({ showSignUp }) => {
     }
   };
 
+  const handleRegister = (event) => {
+    event.preventDefault();
+    showSignUp(true);
+  };
+
   return (
     <div>
-      <h1>Sign Un</h1>
+      <h1>Sign In</h1>
       <form className={cl.FormAuth}>
         <label className={cl.FormLabel}>username</label>
         <input
@@ -46,8 +60,11 @@ const FormRegister = ({ showSignUp }) => {
           className={cl.FormInput}
           value={password}
           onChange={(event) => setPassword(event.currentTarget.value)}
-          type="text"
+          type="password"
         />
+        <button className={cl.FormButtonLogin} onClick={handleLogin}>
+          LOGIN
+        </button>
         <button className={cl.FormButtonRegister} onClick={handleRegister}>
           REGISTER
         </button>
@@ -56,4 +73,4 @@ const FormRegister = ({ showSignUp }) => {
   );
 };
 
-export default FormRegister;
+export default FormLogin;

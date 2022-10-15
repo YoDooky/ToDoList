@@ -4,7 +4,7 @@ import { AuthContext } from "../context";
 
 function ToDoForm({ tasks, addTask }) {
   const [userInput, setUserInput] = useState("");
-  const { isAuth, setIsAuth } = useContext(AuthContext);
+  const { setIsAuth } = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +25,7 @@ function ToDoForm({ tasks, addTask }) {
   return (
     <header>
       <div className="navigation">
-        <button  className="logout-button" onClick={logout} variant="contained">
+        <button className="logout-button" onClick={logout} variant="contained">
           Logout
         </button>
       </div>

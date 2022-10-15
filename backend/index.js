@@ -6,6 +6,12 @@ import "dotenv/config";
 
 import router from "./router.js";
 
+import path from 'path';
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 // connet to mongoDB via mongoose
 mongoose
   .connect(
@@ -23,9 +29,15 @@ app.use(express.json());
 app.use(cors()); //use cors to access to backend from frontend
 app.use("", router);
 
-app.listen(4444, (error) => {
+app.use(express.static(path.join(__dirname, '/build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+const PORT = process.env.PORT || 4444;
+app.listen(PORT, (error) => {
   if (error) {
     return console.log(error);
   }
-  console.log("Server started on port 4444");
+  console.log(`Server started on port ${PORT}`);
 });

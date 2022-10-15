@@ -94,13 +94,14 @@ p.text {
 }
 
 .content {
-  flex-basis: 70%;
+  flex-basis: 100%;
   justify-content: flex-start;
   align-items: center;
   display: flex;
+  min-width: 100px;
 }
 
-.edit-task-container{
+.edit-task-container {
   display: flex;
   flex-basis: 100%;
   background-color: var(--darker);
@@ -108,6 +109,7 @@ p.text {
   margin-right: 1rem;
   color: var(--light);
   font-size: 1.25rem;
+  min-width: 100px;
 }
 
 .new-task-input {
@@ -118,6 +120,7 @@ p.text {
   margin-right: 1rem;
   color: var(--light);
   font-size: 1.25rem;
+  min-width: 100px;
 }
 
 .edit-task-button {
@@ -147,6 +150,7 @@ p.text {
   margin-right: 1rem;
   color: var(--light);
   font-size: 1.25rem;
+  min-width: 100px;
 }
 
 #new-task-input::placeholder {
@@ -187,7 +191,7 @@ p.text {
   margin-bottom: 1rem;
 }
 
-#tasks .task {
+ .task {
   display: flex;
   justify-content: space-between;
   background-color: var(--darkest);
@@ -196,7 +200,7 @@ p.text {
   margin-bottom: 1rem;
 }
 
-#tasks .task .content .text {
+ .task .content .text {
   color: var(--light);
   font-size: 1.125rem;
   width: 100%;
@@ -204,18 +208,18 @@ p.text {
   transition: 0.4s;
 }
 
-#tasks .task .content .text:not(:read-only) {
+ .task .content .text:not(:read-only) {
   color: var(--pink);
 }
 
-#tasks .task .actions {
+ .task .actions {
   display: flex;
   margin: 0 -0.5rem;
 }
 
 .task .actions button {
   cursor: pointer;
-  margin: 0 0.5rem;
+  margin: 0 0.2rem;
   font-size: 1.125rem;
   font-weight: 700;
   text-transform: uppercase;

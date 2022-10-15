@@ -3,9 +3,10 @@ import { AuthContext } from "../context";
 import ToDo from "../components/ToDo";
 import ToDoForm from "../components/ToDoForm";
 import axios from "axios";
+import config from "../config/default.json";
 import MyModal from "../components/UI/MyModal/MyModal";
-import FormLogin from "../components/UI/MyForm/FormLogin";
-import FormRegister from "../components/UI/MyForm/FormRegister";
+import FormLogin from "../components/MyForm/FormLogin";
+import FormRegister from "../components/MyForm/FormRegister";
 
 const Home = () => {
   const { isAuth } = useContext(AuthContext);
@@ -17,7 +18,7 @@ const Home = () => {
   const getUserTasks = async () => {
     try {
       await axios
-        .get(`http://localhost:4444/tasks/user/${userId}`, {
+        .get(`${config.backendUrl}/tasks/user/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => setTask(res.data));
@@ -33,7 +34,7 @@ const Home = () => {
       };
       try {
         await axios
-          .post("http://localhost:4444/tasks", newItem, {
+          .post(`${config.backendUrl}/tasks`, newItem, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
@@ -49,7 +50,7 @@ const Home = () => {
     if (taskId) {
       try {
         await axios
-          .delete(`http://localhost:4444/tasks/${taskId}`, {
+          .delete(`${config.backendUrl}/tasks/${taskId}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
@@ -69,7 +70,7 @@ const Home = () => {
     if (taskId) {
       try {
         await axios
-          .patch(`http://localhost:4444/tasks/${taskId}`, newItem, {
+          .patch(`${config.backendUrl}/tasks/${taskId}`, newItem, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
@@ -88,7 +89,7 @@ const Home = () => {
     if (taskId) {
       try {
         await axios
-          .patch(`http://localhost:4444/tasks/${taskId}`, newItem, {
+          .patch(`${config.backendUrl}/tasks/${taskId}`, newItem, {
             headers: { Authorization: `Bearer ${token}` },
           })
           .then(() => {
@@ -116,15 +117,17 @@ const Home = () => {
       {isAuth ? (
         <div>
           <ToDoForm tasks={tasks} addTask={addTask} />
-          {tasks.map((task) => (
-            <ToDo
-              key={task._id}
-              task={task}
-              removeTask={removeTask}
-              completeTask={completeTask}
-              editTask={editTask}
-            />
-          ))}
+          <section className="task-list">
+            {tasks.map((task) => (
+              <ToDo
+                key={task._id}
+                task={task}
+                removeTask={removeTask}
+                completeTask={completeTask}
+                editTask={editTask}
+              />
+            ))}
+          </section>
         </div>
       ) : null}
     </div>

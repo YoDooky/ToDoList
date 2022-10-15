@@ -41,56 +41,54 @@ function ToDo({ task, removeTask, completeTask, editTask }) {
   }, [inputShow]);
 
   return (
-    <section className="task-list">
-      <div id="tasks">
-        <div className="task">
-          <div className="task-check">
-            {task.completed ? (
-              <TaskAltOutlinedIcon onClick={checkItem} fontSize="large" />
-            ) : (
-              <RadioButtonUncheckedOutlinedIcon
-                onClick={checkItem}
-                fontSize="large"
-              />
-            )}
-          </div>
-          <div className="content">
-            {inputShow ? (
-              <p
-                className="text"
-                style={{
-                  textDecoration: !task.completed || "line-through",
-                }}
-              >
-                {task.text}
-              </p>
-            ) : (
-              <div className="edit-task-container">
-                <input
-                  className="edit-task-input"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={userInput}
-                  type="text"
-                  ref={taskInput}
-                />
-                <button className="edit-task-button" onMouseDown={confirmEdit}>
-                  OK
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="actions">
-            <button className="edit" onClick={editItem}>
-              edit
-            </button>
-            <button className="delete" onClick={deleteItem}>
-              delete
-            </button>
-          </div>
-        </div>
+    <div className="task">
+      <div className="task-check">
+        {task.completed ? (
+          <TaskAltOutlinedIcon onClick={checkItem} fontSize="large" />
+        ) : (
+          <RadioButtonUncheckedOutlinedIcon
+            onClick={checkItem}
+            fontSize="large"
+          />
+        )}
       </div>
-    </section>
+      <div className="content">
+        {inputShow ? (
+          <p
+            className="text"
+            style={{
+              textDecoration: !task.completed || "line-through",
+            }}
+          >
+            {task.text}
+          </p>
+        ) : (
+          <div className="edit-task-container">
+            <input
+              className="edit-task-input"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={userInput}
+              type="text"
+              ref={taskInput}
+            />
+            <button className="edit-task-button" onMouseDown={confirmEdit}>
+              OK
+            </button>
+          </div>
+        )}
+      </div>
+      {!inputShow || (
+        <div className="actions">
+          <button className="edit" onClick={editItem}>
+            edit
+          </button>
+          <button className="delete" onClick={deleteItem}>
+            del
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

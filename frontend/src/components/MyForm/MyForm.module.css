@@ -6,12 +6,12 @@
 
 .FormInput {
   flex: 1 1 0%;
-  background-color: var(--darker);
   padding: 1rem;
-  border-radius: 1rem;
   margin: 0.5rem;
-  color: var(--light);
   font-size: 1.25rem;
+  color: var(--light);
+  background-color: var(--darker);
+  border-radius: 1rem;
 }
 
 .FormLabel {
@@ -26,21 +26,20 @@
 }
 
 .FormButtonLogin {
-  appearance: auto;
   flex: 1 1 0%;
+  margin: 0.5rem;
+  margin-top: 0.5rem;
   background-color: var(--purple);
   padding: 0.5rem;
-  margin-top: 0.5rem;
   border-radius: 1rem;
-  margin: 0.5rem;
   color: var(--light);
   font-size: 1.25rem;
   cursor: pointer;
   transition: 0.4s;
+  appearance: auto;
 }
 
 .FormButtonLogin:hover {
-  margin: 0.75rem;
   opacity: 0.8;
 }
 
@@ -60,6 +59,5 @@
 }
 
 .FormButtonRegister:hover {
-  margin: 0.75rem;
   opacity: 0.8;
 }
